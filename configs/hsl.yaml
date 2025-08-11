@@ -1,0 +1,81 @@
+red:
+  target_hue: 355
+  hue_range: 35
+  max_hue_shift_deg: 3.0
+  max_range_h: 110.0
+  min_range_h: 60.0
+  max_saturation_shift: 0.15
+  max_range_s: 0.5
+  min_range_s: 0.95
+  max_luminance_shift: 0.02
+  max_range_l: 0.12
+  min_range_l: 0.16
+green:
+  target_hue: 100
+  hue_range: 100
+  max_hue_shift_deg: 30.0
+  max_range_h: 70.0
+  max_saturation_shift: 0.14
+  max_range_s: 0.3
+  max_luminance_shift: 0.05
+  max_range_l: 0.15
+aqua:
+  target_hue: 180
+  hue_range: 48
+  max_hue_shift_deg: 30.0
+  max_range_h: 30.0
+  max_saturation_shift: 0.17
+  max_range_s: 0.2
+  max_luminance_shift: 0.3
+  max_range_l: 0.09
+magenta:
+  target_hue: 320
+  hue_range: 50
+  max_hue_shift_deg: 30.0
+  max_range_h: 35.0
+  max_saturation_shift: 0.3
+  max_range_s: 0.7
+  min_range_s: 0.9
+  max_luminance_shift: 0.3
+  max_range_l: 0.19
+  min_range_l: 0.13
+yellow:
+  target_hue: 55
+  hue_range: 45
+  max_hue_shift_deg: 30.0
+  max_range_h: 70.0
+  # min_range_h: 180.0
+  max_saturation_shift: 0.5
+  max_range_s: 0.8
+  max_luminance_shift: 0.3
+  max_range_l: 0.28
+purple:
+  target_hue: 280
+  hue_range: 90
+  max_hue_shift_deg: 30.0
+  max_range_h: 60.0
+  max_saturation_shift: 0.3
+  max_range_s: 0.6
+  max_luminance_shift: 0.3
+  max_range_l: 0.15
+blue:
+  target_hue: 215
+  hue_range: 60
+  max_hue_shift_deg: 30.0
+  max_range_h: 260.0
+  min_range_h: 140.0
+  max_saturation_shift: 0.4
+  max_range_s: 0.9
+  # min_range_s: 1.1
+  max_luminance_shift: 0.5
+  max_range_l: 0.15
+orange:
+  target_hue: 25
+  hue_range: 50
+  max_hue_shift_deg: 30.0
+  max_range_h: 80.0
+  max_saturation_shift: 0.3
+  max_range_s: 0.6
+  max_luminance_shift: 0.3
+  min_range_l: 0.15
+  max_range_l: 0.13

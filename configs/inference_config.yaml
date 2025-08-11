@@ -1,0 +1,82 @@
+# Inference Configuration for MonetGPT LLM Predictions
+
+# LLM API Configuration
+api:
+  base_url: "http://localhost:8000/v1"
+  model: "test"
+  temperature: 0.3
+  timeout: 30
+  api_key_env: "API_KEY"  # Environment variable name for API key
+
+# Image Processing Settings
+image:
+  max_dimension: 1280  # Maximum dimension for image resizing
+  format: "PNG"  # Output format for image encoding
+
+# Style Configurations
+styles:
+  balanced: |
+    You should be aiming for balanced edits. This means you should avoid overdoing (or underdoing) any single parameter
+    and maintain a natural, true-to-life look. Colors should remain realistic, and tonal adjustments should enhance detail without looking overly dramatic.
+  
+  vibrant: |
+    You should be aiming for vibrant and punchy colors, especially suitable for social media (e.g., Instagram).
+    This means you can use bolder saturation, deeper contrast, and more dramatic shifts in color, as long as the final result looks appealing and eye-catching.
+  
+  retro: |
+    **You should aim for a nostalgic retro vibe, with muted tones and soft, washed-out colors reminiscent of film photography from the 70s or 80s. 
+    This means reducing the lights, faded highlights, and warm color shifts, creating a timeless, vintage aesthetic that's subtle yet eye-catching.** (VERY IMPORTANT)
+
+# Default style to use
+default_style: "balanced"
+
+# Operation Definitions
+operations:
+  white-balance-tone-contrast:
+    name: "**Exposure, Contrast & Tonal Range Adjustments**"
+    description: "These parameters primarily affect the image's overall exposure, contrast, and distribution of tones (shadows, whites, blacks, and highlights)."
+    available: ["Blacks", "Contrast", "Highlights", "Shadows", "Whites", "Exposure"]
+    
+  color-temperature:
+    name: "**White Balance & Global Saturation**"
+    description: "These parameters adjust the photo's global color temperature (warmth/coolness), tint (green/magenta), and overall color intensity (saturation)."
+    available: ["Temperature", "Tint", "Saturation"]
+    
+  hsl:
+    name: "**Selective Color Adjustments**"
+    description: "These parameters allow fine-grained control over specific color ranges in the image, adjusting hue, saturation, or luminance for each color individually."
+    available: [
+      "HueAdjustmentAqua", "HueAdjustmentBlue", "HueAdjustmentGreen", "HueAdjustmentYellow", 
+      "HueAdjustmentRed", "HueAdjustmentMagenta", "HueAdjustmentOrange", "HueAdjustmentPurple",
+      "LuminanceAdjustmentAqua", "LuminanceAdjustmentBlue", "LuminanceAdjustmentGreen", 
+      "LuminanceAdjustmentYellow", "LuminanceAdjustmentRed", "LuminanceAdjustmentOrange", 
+      "LuminanceAdjustmentMagenta", "LuminanceAdjustmentPurple",
+      "SaturationAdjustmentAqua", "SaturationAdjustmentBlue", "SaturationAdjustmentGreen", 
+      "SaturationAdjustmentYellow", "SaturationAdjustmentMagenta", "SaturationAdjustmentOrange", 
+      "SaturationAdjustmentPurple", "SaturationAdjustmentRed"
+    ]
+    note: "You should only pick a few of these which are relevant for the image (You don't have to use all)"
+
+# Processing Configuration
+processing:
+  operations_sequence: ["white-balance-tone-contrast", "color-temperature", "hsl"]
+  save_after_each_stage: false
+  replace_existing: true
+  
+# Output Settings
+output:
+  reasoning_extension: ".txt"
+  config_extension: ".json"
+  image_extension: ".tif"
+  temp_result_file: "temp_result.txt"
+
+# Intensity Mapping Legend
+intensity_legend:
+  "1-12": "Very Slight"
+  "13-24": "Slight"
+  "25-36": "Mild"
+  "37-48": "Moderate"
+  "49-60": "Noticeable"
+  "61-72": "Significant"
+  "73-84": "Very Significant"
+  "85-100": "Extremely Intense"

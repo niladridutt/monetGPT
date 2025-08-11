@@ -1,0 +1,50 @@
+model: "gemini-2.0-flash"
+api_key: ""  # Set your API key here
+base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
+timeout: 5  # Timeout for API requests in seconds
+retry_attempts: 1
+
+# Dataset configuration
+puzzles:
+  puzzle1:
+    reasoning_path: "./data/puzzles1/reasoning/*.txt"
+    images_path: "./data/puzzles1/images/*.png"
+    images_base_path: "./data/puzzles1/images"
+    output_file: "data/sharegpt_puzzle_1.json"
+  
+  puzzle2:
+    reasoning_path: "./data/puzzles2/reasoning/*.txt"
+    images_path: "./data/puzzles2/images/*.png"
+    images_base_path: "./data/puzzles2/images"
+    output_file: "data/sharegpt_puzzle_2.json"
+    
+  puzzle3:
+    reasoning_path: "./data/puzzles3/reasoning/*.txt"
+    images_path: "./data/puzzles3/images/*/*.tif"
+    images_base_path: "./data/puzzles3/images"
+    images_query_path: "./data/puzzles3/images2/*/*.png"
+    output_file: "data/sharegpt_puzzle_3.json"
+
+# Puzzle image generation configuration
+generation:
+  num_standard_trials: 2
+  num_color_trials: 1
+  num_puzzle3_trials: 10  # Number of trials for puzzle3
+  output_dirs:
+    puzzle1: "data/puzzles1/configs"
+    puzzle2: "data/puzzles2/configs"
+    puzzle3: "data/puzzles3/configs"
+
+  image_sources:
+    ppr10k_source: "data/ppr10k/source/*.png"
+    ppr10k_target: "data/ppr10k/target_a/*.png"
+
+# Output directories for pipeline exports and predictions
+output_directories:
+  export: "./ppr10k/export"
+  predictions: "./ppr10k/preds"
+  data: "./data"
+
+# Image source paths (unified - all images are in the same directory)
+image_sources:
+  ppr10k_source: "data/ppr10k/source/*.png"

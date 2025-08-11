@@ -1,0 +1,1 @@
+nohup llamafactory-cli train configs/train.yaml > train.log 2>&1 & 

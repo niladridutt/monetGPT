@@ -1,0 +1,52 @@
+### model
+model_name_or_path: Qwen/Qwen2-VL-7B-Instruct
+flash_attn: fa2
+trust_remote_code: true
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_target: all
+# lora_target: [q_proj, v_proj, k_proj, o_proj]
+freeze_vision_tower: false
+additional_target: [embed_tokens, lm_head]
+lora_rank: 256
+use_dora: true
+lora_dropout: 0.2
+pure_bf16: true
+
+### dataset
+dataset: monetgpt  # video: mllm_video_demo
+template: qwen2_vl
+cutoff_len: 100000
+max_samples: 1000000
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+### output
+output_dir: saves/qwen2_vl-7b/lora/all_puzzles
+logging_steps: 10
+save_steps: 4000
+plot_loss: true
+overwrite_output_dir: true
+
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 4
+learning_rate: 1.0e-4
+num_train_epochs: 1.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+skip_special_tokens: false
+
+
+### eval
+val_size: 0.05
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 4000
+skip_special_tokens: false

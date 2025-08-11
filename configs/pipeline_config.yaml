@@ -1,0 +1,30 @@
+gimp:
+  # GIMP executable paths for different platforms
+  paths:
+    macos: "/Applications/GIMP.app/Contents/MacOS/gimp-console-2.10"
+    linux: "flatpak run org.gimp.GIMP//stable --no-interface"
+    windows: "gimp-console-2.10.exe"
+  
+  # GIMP execution settings
+  batch_interpreter: "python-fu-eval"
+  python_warnings: "ignore"
+  
+  # Pipeline file settings
+  pipeline_file: "./image_ops/gimp_pipeline.py"
+  temp_config: "temp.json"
+
+# Image processing settings
+image_processing:
+  max_low_res_size: 700 # it's ok for this res to be low as it's only for llm training, during inference original image resolution is preserved
+  default_dpi: 140
+  temp_paths:
+    - "./ppr10k/export/temp.png"
+    - "./ppr10k/export/temp_1.tif"
+    - "./ppr10k/export/temp_2.tif"
+    - "./ppr10k/export/temp_3.tif"
+
+# Processing parameters
+processing:
+  batch_size: 10
+  max_workers: 4
+  timeout_seconds: 120
