@@ -10,7 +10,7 @@ api:
 
 # Image Processing Settings
 image:
-  max_dimension: 1280  # Maximum dimension for image resizing
+  max_dimension: 1280  # Maximum dimension for image resizing to be fed into the MLLM. This is separate from the actual image editing operations which are applied on the native resoltuion (eg: 8k 16-bit). 
   format: "PNG"  # Output format for image encoding
 
 # Style Configurations
