@@ -57,7 +57,7 @@ sh install.sh
 
 ### GIMP Installation
 
-MonetGPT requires **GIMP 2.10** for image processing operations. Other versions may not be compatible.
+MonetGPT requires **GIMP 2.10** for about 20% of the image processing operations and the rest are implemented using NumPy. Other versions may not be compatible. We might update the code later on to completely remove the requirement for GIMP.
 
 #### Download GIMP 2.10:
 - **macOS**: [Download GIMP 2.10.38 ARM64](https://download.gimp.org/gimp/v2.10/macos/gimp-2.10.38-arm64-1.dmg)
@@ -276,8 +276,8 @@ gimp:
 
 # Image processing settings
 image_processing:
-  max_low_res_size: 700  # Low resolution for LLM training only
-  default_dpi: 140       # Original resolution preserved during inference
+  max_low_res_size: 700  # Low resolution for MLLM training only
+  default_dpi: 140       # Original resolution is preserved during inference
 
 # Processing parameters
 processing:
