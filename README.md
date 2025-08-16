@@ -92,10 +92,15 @@ First, you need to install the Flatpak package manager if you don't already have
 Next, add the Flathub repository, which is the main source for Flatpak apps. A system restart is recommended after this step.
 
 ```bash
-flatpak remote-add --if-not-exists flathub [https://flathub.org/repo/flathub.flatpakrepo](https://flathub.org/repo/flathub.flatpakrepo)
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 ```
 
-#### Step 3: Install NumPy for GIMP (Linux Flatpak only):
+#### Step 3: Install GIMP:
+```bash
+flatpak install flathub org.gimp.GIMP//2.10 
+```
+
+#### Step 4: Install NumPy for GIMP (Linux Flatpak only):
 ```bash
 flatpak run --command=sh org.gimp.GIMP//stable -c "python -m pip install --user numpy"
 ```
