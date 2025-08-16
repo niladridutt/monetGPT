@@ -61,13 +61,41 @@ MonetGPT requires **GIMP 2.10** for about 20% of the image processing operations
 
 #### Download GIMP 2.10:
 - **macOS**: [Download GIMP 2.10.38 ARM64](https://download.gimp.org/gimp/v2.10/macos/gimp-2.10.38-arm64-1.dmg)
-- **Linux**: Install via Flatpak: 
+- **Linux**: Install via Flatpak (see guide below for more details): 
   ```bash
-  flatpak install flathub org.gimp.GIMP//2.10
+  flatpak install flathub org.gimp.GIMP//2.10 
   ```
 - **Windows**: [Download from GIMP website](https://download.gimp.org/gimp/v2.10/)
 
-#### Install NumPy for GIMP (Linux Flatpak only):
+#### Installation Guide for Linux (via Flatpak)
+
+This short guide walks you through installing GIMP using Flatpak.
+
+**Step 1: Install Flatpak**
+
+First, you need to install the Flatpak package manager if you don't already have it.
+
+* **For Ubuntu, Debian, or derivatives:**
+    ```bash
+    sudo apt update
+    sudo apt install flatpak
+    ```
+* **For Fedora:**
+    Flatpak comes pre-installed. You can proceed to the next step.
+* **For Arch Linux or derivatives:**
+    ```bash
+    sudo pacman -S flatpak
+    ```
+
+**Step 2: Add the Flathub Repository**
+
+Next, add the Flathub repository, which is the main source for Flatpak apps. A system restart is recommended after this step.
+
+```bash
+flatpak remote-add --if-not-exists flathub [https://flathub.org/repo/flathub.flatpakrepo](https://flathub.org/repo/flathub.flatpakrepo)
+```
+
+#### Step 3: Install NumPy for GIMP (Linux Flatpak only):
 ```bash
 flatpak run --command=sh org.gimp.GIMP//stable -c "python -m pip install --user numpy"
 ```
