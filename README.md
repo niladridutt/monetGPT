@@ -191,6 +191,8 @@ python dataset_cli.py create          # Create datasets for all puzzles
 
 # Step 5: Combine datasets for training
 python dataset/combine_jsons.py       # Combine JSON datasets and export for training
+
+# [important] ensure you place the combined json file exported as "monetgpt.json" under llm/data
 ```
 
 ### 4. Train the Model
