@@ -49,8 +49,6 @@ class PuzzleImageGenerator:
                 print(f"Processing {idx}: {config_path}")
                 
                 filename = config_path.split("/")[-1].split(".")[0]
-                # Extract the base image name from filename (e.g., "image 33" from "image 33_Tint_-70")
-                # Split by underscore, then take the part before the first underscore that contains the operation
                 if "_" in filename:
                     # Find the operation part (starts after the image name)
                     parts = filename.split("_")
@@ -103,7 +101,7 @@ class PuzzleImageGenerator:
                 # Extract image name from directory name
                 # e.g., "ip2p_Tint" -> "ip2p"
                 dir_parts = dir_name.split("_")
-                image_index = dir_parts[0]  # Just take the first part: "ip2p", "mgie", "ours"
+                image_index = dir_parts[0] 
                 
                 # Use the same source pattern as puzzle 1
                 source_pattern = self.config["image_sources"]["ppr10k_source"]
@@ -124,11 +122,7 @@ class PuzzleImageGenerator:
                     
                     # Get the main adjustment value (assuming single operation per config)
                     # Skip zero values and get the first non-zero value
-                    adjusted_val = 0
-                    for key, value in config_data.items():
-                        if key not in ['Saturation', 'Contrast', 'Exposure'] or value != 0:
-                            adjusted_val = int(value) if isinstance(value, (int, float)) else 0
-                            break
+                    adjusted_val = int(list(config_data.values())[0])
                     
                     adjusted_vals.append(adjusted_val)
                     output_paths.append(output_path)

@@ -28,9 +28,9 @@ light_operations = ["Shadows", "Highlights", "Whites"]
 
 # DO NOT MODIFY; these paths will get filled in by the calling script
 
-config_path = 'data/puzzles1/configs/image 34_HueAdjustmentOrange_-77.json'
-src_image_path = 'data/ppr10k/source/image 34.png'
-output_image_path = './ppr10k/export/temp.png'
+config_path = 'data/puzzles2/configs/ip2p_LuminanceAdjustmentYellow/b.json'
+src_image_path = './ppr10k/export/temp_3.tif'
+output_image_path = './ppr10k/export/temp_3.tif'
 
 
 def execute(image_path, output_path):

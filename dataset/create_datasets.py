@@ -5,6 +5,7 @@ import json
 import glob
 import os
 from .utils import load_config
+import random
 
 
 def create_sharegpt_format_puzzle1(user_prompt, reasoning, image_path=None):
@@ -34,14 +35,34 @@ def create_sharegpt_format_puzzle2(operation, question_2, answer_2, reasoning, i
     """Create ShareGPT format entry for puzzle 2."""
     template_prompt = f"""
 <image> 
-I have a stitched image of 4 Lightroom edits of the original photo where the `{operation}` has been adjusted to create 4 versions: a, b, c, and d (from left to right). These are in a random order of adjustment values.
+A source image has been edited in Lightroom where the `{operation}` has been adjusted to create 3 versions of the image: a, b, c, and d (from left to right and it's labelled as well). The stitched image represents these 4 versions in a random order of adjusted values.
 
-Based on this stitched image, I need you to:
+### Tasks:
+1. **Sorting and Reasoning**:
+   - Sort the images from lowest to highest `{operation}` adjustment.
+   - Justify this order by explaining why each image has a lesser or greater level of `{operation}` compared to the others. When describing the reasoning:
+     - Include as much context about the image as possible, such as how highlights, shadows, textures, colors, or other elements are affected by the adjustment.
+     - Avoid generic or vague statements like "It balances the highlights." Instead, pinpoint exact issues caused by under- or over-adjustment (e.g., loss of detail in shadows, unnatural brightness, washed-out tones, etc.).
 
-1. **Sort the images** from lowest to highest `{operation}` adjustment and provide the order.
-2. **Identify the optimal image** and explain why it has the best level of `{operation}` for this specific photo.
+2. **Justification for optimal Image**:
+   - Identify the image which has the **optimal** level of `{operation}`.
+   - Focus on how this level of adjustment specifically improves the image's visual quality while preserving critical details. Mention issues observed in other images and how the **optimal** level avoids those problems.
+   - Address specific visual elements affected by the adjustment (e.g., tonal depth, texture clarity, color vibrancy) and why this level is optimal for maintaining balance and naturalness.
 
-Use detailed visual analysis and provide reasoning for both the sorting and the optimal choice.
+### Response Format:
+Your response should follow this structure:
+
+1. **Sorted Ordering**:
+   - State the provided order: *The sorted order of the images from lowest to highest `{operation}` adjustment is: [order].*
+   - Justify the order by addressing:
+     - What specific visual cues indicate a low, medium, or high level of `{operation}`?
+     - Why does each image fall into its respective position in the order? Use concrete examples from the image to describe differences.
+
+2. **Why Image [index] is Optimal**: (replace index with the index of the image you identify- one of [a,b,c,d])
+   - Begin with: *"The operation applied is `{operation}`, and image [index] has the **optimal** level of adjustment."*
+   - Provide a detailed justification for why this image represents the optimal adjustment:
+     - Describe how the adjustment affects specific elements of the image (e.g., textures, tonal balance, shadows, highlights, vibrancy).
+     - Compare it to other images, highlighting the problems caused by under- or over-adjustments and how the **optimal** level resolves them.
 """
 
     entry = {
@@ -279,6 +300,8 @@ def create_dataset_puzzle2(config_path="configs/dataset_config.yaml"):
     """Create dataset for puzzle 2."""
     config = load_config(config_path)
     puzzle_config = config["puzzles"]["puzzle2"]
+
+    generated_configs_path = config["generation"]["output_dirs"]["puzzle2"]
     
     messages = []
     reasoning_files_path = puzzle_config["reasoning_path"]
@@ -291,8 +314,8 @@ def create_dataset_puzzle2(config_path="configs/dataset_config.yaml"):
     for reasoning_file_path in train_files:
         filename = reasoning_file_path.split("/")[-1].split(".")[0]
         parts = filename.split("_")
-        operation = parts[2]
-        order = "_".join(parts[3:])
+        operation = parts[1]
+        order = "_".join(parts[2:])
         
         # Replace reasoning path with images path and use config extension
         image_path = reasoning_file_path.replace("reasoning", "images").replace(".txt", image_ext)
@@ -311,9 +334,33 @@ def create_dataset_puzzle2(config_path="configs/dataset_config.yaml"):
             print("reasoning too short", reasoning_file_path)
             continue
 
-        question_2 = f"""Based on this analysis, what are the 3 adjustment values that were used to create versions a, b, and c? Provide them as a JSON list in the same order as the images [a, b, c]."""
+        optimal_image = order[-1]
+        order = order[:-2]
+
+        filename = filename[:-10]
+
+        adjustment_values = []
+        for file in ["a","b","c"]:
+            generated_config_path = f"{generated_configs_path}/{filename}/{file}.json"
+            with open(generated_config_path, 'r') as file:
+                generated_config = json.load(file)
+                adjustment_values.append(int(list(generated_config.values())[0]))
+
+        adjustment_values = sorted(adjustment_values)
+        random_adjustment_value = random.choice(adjustment_values)
+
+        random_index = adjustment_values.index(random_adjustment_value)*2
+
+        if random_adjustment_value > 0:
+            random_index = random_index + 2
         
-        answer_2 = f"""```json\n{order.replace('_', ', ').replace('[', '').replace(']', '').split(', ')}\n```"""
+        assert order[random_index].isalpha()
+
+        question_2 = f"What is the adjustment value of `{operation}` needed to edit image `{order[random_index]}` to make it **optimal** like image `{optimal_image}`?"
+        random_adjustment_value = random_adjustment_value * -1
+        
+        random_adjustment_value = f"+{random_adjustment_value}" if random_adjustment_value > 0 else f"{random_adjustment_value}"
+        answer_2 = f"We need to apply operation `{operation}` with adjustment value {random_adjustment_value} to make it **optimal**."
         
         data_entry = create_sharegpt_format_puzzle2(operation, question_2, answer_2, reasoning, image_path)
         messages.append(data_entry)
